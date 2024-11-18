@@ -7,7 +7,7 @@ namespace WebApplication1.DbConn
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Component> Components { get; set; }
-        public DbSet<Cooking> Cooking { get; set; }
+        public DbSet<Cooking> Cookings { get; set; }
         public DbSet<Cooking_Material> Cooking_Materials { get; set; }
         public DbSet<Dish> Dishes { get; set; }
         public DbSet<Dish_Tag> Dish_Tags { get; set; }
