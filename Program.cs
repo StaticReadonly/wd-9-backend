@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using WebApplication1.DbConn;
 using WebApplication1.Options;
 
 namespace WebApplication1
@@ -12,6 +14,11 @@ namespace WebApplication1
             config.AddJsonFile("Configs/ClaimsOptions.json");
 
             var services = builder.Services;
+
+            services.AddDbContext<DbContext1>(cfg =>
+            {
+                cfg.UseNpgsql(config.GetConnectionString("Postgres"));
+            });
 
             services.AddControllers();
 
@@ -50,7 +57,7 @@ namespace WebApplication1
                     cfg.AllowAnyHeader()
                         .AllowAnyMethod()
                         .AllowCredentials()
-                        .WithOrigins("http://localhost:3000");
+                        .WithOrigins("http://localhost:8080");
                 });
             });
 

@@ -12,16 +12,15 @@ namespace WebApplication1.Models.Entities
 
         public static void ConfigureEntity(EntityTypeBuilder<Menu> cfg)
         {
-            cfg.ToTable("Menus", cfg =>
-            {
-                cfg.HasCheckConstraint("CHK_Name", "UNIQUE (Name)");
-            });
+            cfg.ToTable("Menus");
+
+            cfg.HasIndex(x => x.Name)
+                .IsUnique(true);
 
             cfg.HasKey(x => x.ID);
             cfg.Property(x => x.ID)
                 .HasColumnType("uuid")
-                .HasDefaultValueSql("gen_random_uuid()")
-                .IsRequired(true);
+                .HasDefaultValueSql("gen_random_uuid()");
 
             cfg.Property(x => x.Name)
                 .HasColumnType("varchar")
