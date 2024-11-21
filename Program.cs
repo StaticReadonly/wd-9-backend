@@ -1,4 +1,5 @@
 using FluentValidation;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using System.Security.Cryptography;
@@ -54,6 +55,17 @@ namespace WebApplication1
                     cookie.Name = "auth";
                     cookie.SameSite = SameSiteMode.Strict;
                     cookie.MaxAge = TimeSpan.FromDays(14);
+
+                    cfg.Events.OnRedirectToLogin = context =>
+                    {
+                        context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                        return Task.CompletedTask;
+                    };
+                    cfg.Events.OnRedirectToAccessDenied = context =>
+                    {
+                        context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                        return Task.CompletedTask;
+                    };
                 });
 
             var claimsOptions = config.GetSection("ClaimsOptions");

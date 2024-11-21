@@ -60,18 +60,6 @@ namespace WebApplication1.Repositories
 
         public async Task UserRegister(User user, CancellationToken token)
         {
-            /*var userEx = await _context.Users.FirstOrDefaultAsync(x => x.Email == user.Email, token);
-
-            if (userEx != null)
-            {
-                throw new ControllerInModelException("Email", "Користувач вже існує");
-            }
-
-            user.Password = _passwordHasher.Hash(user.Password);
-
-            await _context.Users.AddAsync(user, token);
-            await _context.SaveChangesAsync(token);*/
-
             user.Password = _passwordHasher.Hash(user.Password);
 
             await _context.Users.AddAsync(user, token);
