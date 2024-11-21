@@ -1,6 +1,14 @@
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
+using System.Security.Cryptography;
 using WebApplication1.DbConn;
 using WebApplication1.Options;
+using WebApplication1.Repositories;
+using WebApplication1.Repositories.Abstraction;
+using WebApplication1.Services.ClaimsManager;
+using WebApplication1.Services.ExceptionHandler;
+using WebApplication1.Services.PasswordHasher;
 
 namespace WebApplication1
 {
@@ -20,10 +28,26 @@ namespace WebApplication1
                 cfg.UseNpgsql(config.GetConnectionString("Postgres"));
             });
 
-            services.AddControllers();
+            services.AddScoped<ClaimsManager>();
+
+            services.AddScoped<IUserRepository, UserRepository>();
+
+            services.AddControllers(cfg =>
+            {
+                cfg.Filters.Add<ExceptionFilter>();
+            });
+
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+            services.AddHttpContextAccessor();
+
+            services.AddSingleton<IPasswordHasher, PasswordHasher>(fac =>
+            {
+                return new PasswordHasher(SHA256.Create());
+            });
 
             services.AddAuthentication()
-                .AddCookie(cfg =>
+                .AddCookie("Cookie", cfg =>
                 {
                     var cookie = cfg.Cookie;
                     cookie.HttpOnly = true;
@@ -34,18 +58,25 @@ namespace WebApplication1
 
             var claimsOptions = config.GetSection("ClaimsOptions");
             services.Configure<ClaimsOptions>(claimsOptions);
+
             services.AddAuthorization(cfg =>
             {
                 cfg.AddPolicy("AdminOnly", cfg =>
                 {
                     cfg.RequireAuthenticatedUser()
-                    .RequireClaim(claimsOptions["Role"], claimsOptions["RolesAllowedAdmin"])
+                    .RequireClaim(
+                        claimsOptions.GetValue<string>("Role"),
+                        claimsOptions.GetSection("RolesAllowedAdmin").Get<string[]>()
+                    )
                     .AddAuthenticationSchemes("Cookie");
                 });
                 cfg.AddPolicy("UserAuthorized", cfg =>
                 {
                     cfg.RequireAuthenticatedUser()
-                    .RequireClaim(claimsOptions["Role"], claimsOptions["RolesAllowedUser"])
+                    .RequireClaim(
+                        claimsOptions.GetValue<string>("Role"),
+                        claimsOptions.GetSection("RolesAllowedUser").Get<string[]>()
+                    )
                     .AddAuthenticationSchemes("Cookie");
                 });
             });

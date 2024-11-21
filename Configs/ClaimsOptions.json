@@ -3,7 +3,6 @@
     "ID": "ID",
     "Role": "Role",
     "RolesAllowedAdmin": [ "Admin" ],
-    "RolesAllowedUser":  ["Admin", "User"],
-    "Picture":  "Picture"
+    "RolesAllowedUser":  ["Admin", "User"]
   }
 }

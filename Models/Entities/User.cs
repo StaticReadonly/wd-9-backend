@@ -8,7 +8,7 @@ namespace WebApplication1.Models.Entities
         public Guid ID { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
-        public string Role { get; set; }
+        public string Role { get; set; } = "User";
         public string First_name { get; set; }
         public string Last_Name { get; set; }
         public IEnumerable<Comment> Comments { get; set; }
