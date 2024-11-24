@@ -1,5 +1,4 @@
 using FluentValidation;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using System.Security.Cryptography;
@@ -32,6 +31,8 @@ namespace WebApplication1
             services.AddScoped<ClaimsManager>();
 
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IIngredientsRepository, IngredientsRepository>();
+            services.AddScoped<ITagRepository, TagRepository>();
 
             services.AddControllers(cfg =>
             {
