@@ -7,6 +7,7 @@ namespace WebApplication1.Models.Entities
     {
         public Guid Recipe_ID { get; set; }
         public Guid Ingredient_ID { get; set; }
+        public int Amount { get; set; }
         public Ingredient Ingredient { get; set; }
         public Recipe Recipe { get; set; }
 
@@ -22,6 +23,9 @@ namespace WebApplication1.Models.Entities
 
             cfg.Property(x => x.Ingredient_ID)
                 .HasColumnType("uuid")
+                .IsRequired(true);
+
+            cfg.Property(x => x.Amount)
                 .IsRequired(true);
 
             cfg.HasOne(x => x.Recipe)

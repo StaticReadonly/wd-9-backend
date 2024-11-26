@@ -30,6 +30,7 @@ namespace WebApplication1
 
             services.AddScoped<ClaimsManager>();
 
+            services.AddScoped<IDishRepository, DishRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IIngredientsRepository, IngredientsRepository>();
             services.AddScoped<ITagRepository, TagRepository>();
