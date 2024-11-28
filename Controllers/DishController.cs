@@ -42,7 +42,7 @@ namespace WebApplication1.Controllers
             }
             catch(DbUpdateException exc)
             {
-                return BadRequest();
+                return BadRequest("Виникла помилка при додаванні страви");
             }
         }
     }

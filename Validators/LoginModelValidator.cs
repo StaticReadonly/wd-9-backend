@@ -7,11 +7,16 @@ namespace WebApplication1.Validators
     {
         public LoginModelValidator()
         {
-            RuleFor(x => x.Email).NotEmpty().Matches("^[a-z]+(\\.[a-z]+)*@[a-z]+(\\.[a-z]+)+$")
-                .WithMessage("Невірна пошта"); ;
+            RuleFor(x => x.Email)
+                .NotEmpty().WithMessage("Вкажіть пошту")
+                .Matches("^[a-z]+(\\.[a-z]+)*@[a-z]+(\\.[a-z]+)+$").WithMessage("Невірна пошта")
+                .MaximumLength(100).WithMessage("Пошта має бути не довше 100 символів");
 
-            RuleFor(x => x.Password).NotEmpty().Matches("^[a-zA-Z0-9!@#$%^&*()-=+\'\\\";:.,_]{6,100}$")
-                .WithMessage("Невріний пароль");
+            RuleFor(x => x.Password)
+                .NotEmpty().WithMessage("Вкажіть пароль")
+                .Matches("^[a-zA-Z0-9!@#$%^&*()-=+\'\\\";:.,_]+$").WithMessage("Пароль містить недопустимі символи")
+                .MinimumLength(6).WithMessage("Пароль має бути не коротше 6 символів")
+                .MaximumLength(100).WithMessage("Пароль має бути не довше 100 миволів");
         }
     }
 }
