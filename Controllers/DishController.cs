@@ -1,10 +1,10 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApplication1.Exceptions;
 using WebApplication1.Models.ControllersIn;
+using WebApplication1.Models.ControllersOut;
 using WebApplication1.Repositories.Abstraction;
 
 namespace WebApplication1.Controllers
@@ -43,6 +43,20 @@ namespace WebApplication1.Controllers
             catch(DbUpdateException exc)
             {
                 return BadRequest("Виникла помилка при додаванні страви");
+            }
+        }
+
+        [HttpPost("info/{id:guid}")]
+        public async Task<IActionResult> GetInfo([FromRoute] Guid id)
+        {
+            try
+            {
+                DishInfo info = await _dishRepository.DishInfo(id, HttpContext.RequestAborted);
+                return Ok(info);
+            }
+            catch (EntityNotFoundException exc)
+            {
+                return BadRequest(exc.Message);
             }
         }
     }

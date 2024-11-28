@@ -9,7 +9,7 @@ namespace WebApplication1.Models.Entities
         public string Email { get; set; }
         public string Password { get; set; }
         public string Role { get; set; } = "User";
-        public string First_name { get; set; }
+        public string First_Name { get; set; }
         public string Last_Name { get; set; }
         public IEnumerable<Comment> Comments { get; set; }
 
@@ -41,7 +41,7 @@ namespace WebApplication1.Models.Entities
                 .HasMaxLength(20)
                 .IsRequired(true);
 
-            cfg.Property(x => x.First_name)
+            cfg.Property(x => x.First_Name)
                 .HasColumnType("varchar")
                 .HasMaxLength(50)
                 .IsRequired(true);

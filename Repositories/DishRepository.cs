@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using System.Transactions;
 using WebApplication1.DbConn;
+using WebApplication1.Exceptions;
 using WebApplication1.Models.ControllersIn;
+using WebApplication1.Models.ControllersOut;
 using WebApplication1.Models.Entities;
 using WebApplication1.Repositories.Abstraction;
 
@@ -58,6 +61,47 @@ namespace WebApplication1.Repositories
             await _context.SaveChangesAsync(token);
 
             await transaction.CommitAsync(token);
+        }
+
+        public async Task<DishInfo> DishInfo(Guid id, CancellationToken token)
+        {
+            token.ThrowIfCancellationRequested();
+
+            Dish? dish = await _context.Dishes
+                .Include(x => x.Recipe)
+                .ThenInclude(y => y.IngredientRel)
+                .ThenInclude(z => z.Ingredient)
+                .Include(x => x.Recipe)
+                .ThenInclude(y => y.StepRel)
+                .ThenInclude(z => z.Step)
+                .Include(x => x.TagsRel)
+                .ThenInclude(y => y.Tag)
+                .FirstOrDefaultAsync(x => x.ID == id, token);
+
+            if (dish == null)
+                throw new EntityNotFoundException("Страву не знайдено");
+
+            DishInfo dishInfo = new()
+            {
+                Name = dish.Name,
+                Description = dish.Description,
+                Time = dish.Recipe.Time.ToString(@"hh\:mm\:ss"),
+                Tags = dish.TagsRel.Select(x => x.Tag.Name),
+                Ingredients = dish.Recipe.IngredientRel.Select(x => new DishIngredientInfo()
+                {
+                    Name = x.Ingredient.Name,
+                    Amount = x.Amount,
+                    Unit = x.Ingredient.Unit
+                }),
+                Steps = dish.Recipe.StepRel.Select(x => new DishStepInfo()
+                {
+                    Name = x.Step.Name,
+                    Description = x.Step.Description,
+                    Number = x.Step_Number
+                })
+            };
+
+            return dishInfo;
         }
     }
 }

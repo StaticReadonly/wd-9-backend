@@ -4,11 +4,13 @@ using WebApplication1.Models.Entities;
 
 namespace WebApplication1.AutoMapper
 {
-    public class UserInfoProfile : Profile
+    public class UserProfile : Profile
     {
-        public UserInfoProfile() 
+        public UserProfile()
         {
             CreateMap<User, UserInfo>().ReverseMap();
+
+            CreateMap<User, CommentOwnerInfo>();
         }
     }
 }

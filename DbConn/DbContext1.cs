@@ -5,6 +5,7 @@ namespace WebApplication1.DbConn
 {
     public class DbContext1 : DbContext
     {
+        public DbSet<Comment> Comments { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Component> Components { get; set; }
         public DbSet<Cooking> Cookings { get; set; }
