@@ -1,7 +1,9 @@
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System.Reflection;
 using System.Security.Cryptography;
+using System.Text;
 using WebApplication1.DbConn;
 using WebApplication1.Options;
 using WebApplication1.Repositories;
@@ -55,8 +57,10 @@ namespace WebApplication1
                     var cookie = cfg.Cookie;
                     cookie.HttpOnly = true;
                     cookie.Name = "auth";
-                    cookie.SameSite = SameSiteMode.Strict;
+                    cookie.SameSite = SameSiteMode.None;
                     cookie.MaxAge = TimeSpan.FromDays(14);
+                    cookie.SecurePolicy = CookieSecurePolicy.Always;
+                    cookie.Path = "/api";
 
                     cfg.Events.OnRedirectToLogin = context =>
                     {
@@ -67,6 +71,22 @@ namespace WebApplication1
                     {
                         context.Response.StatusCode = StatusCodes.Status401Unauthorized;
                         return Task.CompletedTask;
+                    };
+                })
+                .AddJwtBearer("Bearer", cfg =>
+                {
+                    var bearerOptions = config.GetSection("Jwt");
+
+                    cfg.TokenValidationParameters = new()
+                    {
+                        ValidateAudience = true,
+                        ValidateIssuer = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidateLifetime = true,
+                        ValidIssuer = bearerOptions.GetValue<string>("Issuer"),
+                        ValidAudience = bearerOptions.GetValue<string>("Audience"),
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
+                            bearerOptions.GetValue<string>("SecretKey")))
                     };
                 });
 
@@ -82,7 +102,7 @@ namespace WebApplication1
                         claimsOptions.GetValue<string>("Role"),
                         claimsOptions.GetSection("RolesAllowedAdmin").Get<string[]>()
                     )
-                    .AddAuthenticationSchemes("Cookie");
+                    .AddAuthenticationSchemes("Bearer");
                 });
                 cfg.AddPolicy("UserAuthorized", cfg =>
                 {
@@ -91,7 +111,7 @@ namespace WebApplication1
                         claimsOptions.GetValue<string>("Role"),
                         claimsOptions.GetSection("RolesAllowedUser").Get<string[]>()
                     )
-                    .AddAuthenticationSchemes("Cookie");
+                    .AddAuthenticationSchemes("Bearer");
                 });
             });
 
@@ -102,7 +122,7 @@ namespace WebApplication1
                     cfg.AllowAnyHeader()
                         .AllowAnyMethod()
                         .AllowCredentials()
-                        .WithOrigins("http://localhost:8080");
+                        .WithOrigins("http://localhost:5173");
                 });
             });
 

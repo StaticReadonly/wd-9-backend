@@ -23,11 +23,11 @@ namespace WebApplication1.Controllers
             _commentRepository = commentRepository;
         }
 
-        [HttpPost("{id:guid}/post")]
-        public async Task<IActionResult> PostComment([FromBody] CommentPostModel model, [FromRoute] Guid id)
-        {
+        //[HttpPost("{id:guid}/post")]
+        //public async Task<IActionResult> PostComment([FromBody] CommentPostModel model, [FromRoute] Guid id)
+        //{
 
-        }
+        //}
 
         [HttpPost("{id:guid}")]
         public async Task<IActionResult> GetCommets([FromRoute] Guid id)
@@ -40,10 +40,10 @@ namespace WebApplication1.Controllers
             return Ok(comments);
         }
 
-        [HttpPut("{id:guid}/edit")]
-        public async Task<IActionResult> EditComment([FromBody]CommentEditModel model, [FromRoute] Guid id)
-        {
+        //[HttpPut("{id:guid}/edit")]
+        //public async Task<IActionResult> EditComment([FromBody]CommentEditModel model, [FromRoute] Guid id)
+        //{
 
-        }
+        //}
     }
 }

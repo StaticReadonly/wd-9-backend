@@ -48,20 +48,22 @@ namespace WebApplication1.Controllers
 
             User user = await _userRepository.UserLogin(model, HttpContext.RequestAborted);
 
-            var principal = _claimsManager.BuildPrincipal(user);
-            
-            await HttpContext.SignInAsync(principal);
+            string jwtToken = _claimsManager.BuildJwtToken(user);
 
             UserInfo result = _mapper.Map<User, UserInfo>(user);
 
-            return Ok(result);
+            return Ok(new
+            {
+                token = jwtToken,
+                userInfo = result
+            });
         }
 
         [HttpPost("logout")]
         [Authorize(Policy = "UserAuthorized")]
         public async Task<IActionResult> Logout()
         {
-            await HttpContext.SignOutAsync("Cookie");
+            //await HttpContext.SignOutAsync("Cookie");
 
             return Ok();
         }
@@ -80,13 +82,15 @@ namespace WebApplication1.Controllers
 
             await _userRepository.UserRegister(user, HttpContext.RequestAborted);
 
-            var principal = _claimsManager.BuildPrincipal(user);
-
-            await HttpContext.SignInAsync(principal);
+            string jwtToken = _claimsManager.BuildJwtToken(user);
 
             UserInfo result = _mapper.Map<User, UserInfo>(user);
 
-            return Ok(result);
+            return Ok(new
+            {
+                token = jwtToken,
+                userInfo = result
+            });
         }
 
         [HttpPost("info")]
