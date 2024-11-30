@@ -7,7 +7,9 @@ namespace WebApplication1.Validators.Comment
     {
         public CommentPostValidator()
         {
-
+            RuleFor(x => x.Text)
+                .NotEmpty().WithMessage("Вкажіть текст коментаря")
+                .MaximumLength(500).WithMessage("Текст коментаря не може перевищувати 500 символів");
         }
     }
 }

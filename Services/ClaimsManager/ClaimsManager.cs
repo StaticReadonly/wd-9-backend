@@ -12,13 +12,16 @@ namespace WebApplication1.Services.ClaimsManager
     {
         private readonly ClaimsOptions _claimsOptions;
         private readonly IConfiguration _configuration;
+        private readonly HttpContext _context;
 
         public ClaimsManager(
             IOptions<ClaimsOptions> claimsOptions, 
-            IConfiguration configuration)
+            IConfiguration configuration,
+            IHttpContextAccessor contextAccessor)
         {
             _claimsOptions = claimsOptions.Value;
             _configuration = configuration;
+            _context = contextAccessor.HttpContext;
         }
 
         public ClaimsPrincipal BuildPrincipal(User userData)
@@ -59,6 +62,12 @@ namespace WebApplication1.Services.ClaimsManager
             };
 
             return claims;
+        }
+
+        public Guid GetCurrentUserID()
+        {
+            Claim claim = _context.User.Claims.First(x => x.Type == _claimsOptions.ID);
+            return Guid.Parse(claim.Value);
         }
     }
 }

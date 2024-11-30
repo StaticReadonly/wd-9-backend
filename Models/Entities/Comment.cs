@@ -36,7 +36,7 @@ namespace WebApplication1.Models.Entities
                 .IsRequired(true);
 
             cfg.Property(x => x.TimeStamp)
-                .HasColumnType("timestamp")
+                .HasColumnType("timestamp with time zone")
                 .IsRequired(true);
 
             cfg.HasOne(x => x.User)

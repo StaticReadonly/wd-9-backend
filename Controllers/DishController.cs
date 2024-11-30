@@ -49,15 +49,8 @@ namespace WebApplication1.Controllers
         [HttpPost("info/{id:guid}")]
         public async Task<IActionResult> GetInfo([FromRoute] Guid id)
         {
-            try
-            {
-                DishInfo info = await _dishRepository.DishInfo(id, HttpContext.RequestAborted);
-                return Ok(info);
-            }
-            catch (EntityNotFoundException exc)
-            {
-                return BadRequest(exc.Message);
-            }
+            DishInfo info = await _dishRepository.DishInfo(id, HttpContext.RequestAborted);
+            return Ok(info);
         }
     }
 }

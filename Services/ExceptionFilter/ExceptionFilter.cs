@@ -27,6 +27,17 @@ namespace WebApplication1.Services.ExceptionHandler
                         await response.WriteAsJsonAsync(e.Errors);
                         break;
                     }
+                case EntityNotFoundException e:
+                    {
+                        response.StatusCode = StatusCodes.Status404NotFound;
+                        await response.WriteAsync(e.Message);
+                        break;
+                    }
+                case AccessDeniedException e:
+                    {
+                        response.StatusCode = StatusCodes.Status403Forbidden;
+                        break;
+                    }
                 default:
                     {
                         response.StatusCode = StatusCodes.Status500InternalServerError;
