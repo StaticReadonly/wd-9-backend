@@ -14,14 +14,17 @@ namespace WebApplication1.Controllers
     public class DishController : ControllerBase
     {
         private readonly IValidator<DishModel> _dishModelValidator;
+        private readonly IValidator<DishSearchModel> _dishSearchModelValidator;
         private readonly IDishRepository _dishRepository;
 
         public DishController(
-            IValidator<DishModel> dishModelValidator, 
-            IDishRepository dishRepository)
+            IValidator<DishModel> dishModelValidator,
+            IDishRepository dishRepository,
+            IValidator<DishSearchModel> dishSearchModelValidator)
         {
             _dishModelValidator = dishModelValidator;
             _dishRepository = dishRepository;
+            _dishSearchModelValidator = dishSearchModelValidator;
         }
 
         [HttpPost("create")]
@@ -40,7 +43,7 @@ namespace WebApplication1.Controllers
                 await _dishRepository.CreateDish(model, HttpContext.RequestAborted);
                 return Ok();
             }
-            catch(DbUpdateException exc)
+            catch(DbUpdateException)
             {
                 return BadRequest("Виникла помилка при додаванні страви");
             }
@@ -51,6 +54,21 @@ namespace WebApplication1.Controllers
         {
             DishInfo info = await _dishRepository.DishInfo(id, HttpContext.RequestAborted);
             return Ok(info);
+        }
+
+        [HttpPost("search")]
+        [Authorize("AdminOnly")]
+        public async Task<IActionResult> SearchDishes([FromBody] DishSearchModel model)
+        {
+            var validationRes = _dishSearchModelValidator.Validate(model);
+
+            if (!validationRes.IsValid)
+            {
+                throw new ControllerInModelException(validationRes);
+            }
+
+            var result = await _dishRepository.SearchDish(model, HttpContext.RequestAborted);
+            return Ok(result);
         }
     }
 }

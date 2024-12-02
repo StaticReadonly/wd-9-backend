@@ -65,8 +65,6 @@ namespace WebApplication1.Repositories
 
         public async Task<DishInfo> DishInfo(Guid id, CancellationToken token)
         {
-            token.ThrowIfCancellationRequested();
-
             Dish? dish = await _context.Dishes
                 .Include(x => x.Recipe)
                 .ThenInclude(y => y.IngredientRel)
@@ -102,6 +100,16 @@ namespace WebApplication1.Repositories
             };
 
             return dishInfo;
+        }
+
+        public Task<IEnumerable<DishShortInfo>> SearchDish(DishSearchModel model, CancellationToken token)
+        {
+            var dishes = _context.Dishes.Where(x => x.Name.ToLower().Contains(model.Query.ToLower()))
+                .AsEnumerable();
+
+            var result = _mapper.Map<IEnumerable<DishShortInfo>>(dishes);
+
+            return Task.FromResult(result);
         }
     }
 }

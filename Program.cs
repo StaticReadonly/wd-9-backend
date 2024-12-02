@@ -37,6 +37,7 @@ namespace WebApplication1
             services.AddScoped<IIngredientsRepository, IngredientsRepository>();
             services.AddScoped<ITagRepository, TagRepository>();
             services.AddScoped<ICommentRepository, CommentRepository>();
+            services.AddScoped<IMenuRepository, MenuRepository>();
 
             services.AddControllers(cfg =>
             {

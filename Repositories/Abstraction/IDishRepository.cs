@@ -8,5 +8,6 @@ namespace WebApplication1.Repositories.Abstraction
     {
         Task CreateDish(DishModel model, CancellationToken token);
         Task<DishInfo> DishInfo(Guid id, CancellationToken token);
+        Task<IEnumerable<DishShortInfo>> SearchDish(DishSearchModel model, CancellationToken token);
     }
 }

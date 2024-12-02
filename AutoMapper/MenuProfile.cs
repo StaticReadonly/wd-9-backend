@@ -5,13 +5,13 @@ using WebApplication1.Models.Entities;
 
 namespace WebApplication1.AutoMapper
 {
-    public class DishModelProfile : Profile
+    public class MenuProfile : Profile
     {
-        public DishModelProfile()
+        public MenuProfile()
         {
-            CreateMap<DishModel, Dish>();
+            CreateMap<MenuCreateModel, Menu>();
 
-            CreateMap<Dish, DishShortInfo>();
+            CreateMap<Menu, MenuSearchInfo>();
         }
     }
 }
