@@ -57,7 +57,6 @@ namespace WebApplication1.Controllers
         }
 
         [HttpPost("search")]
-        [Authorize("AdminOnly")]
         public async Task<IActionResult> SearchDishes([FromBody] DishSearchModel model)
         {
             var validationRes = _dishSearchModelValidator.Validate(model);

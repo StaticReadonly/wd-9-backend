@@ -12,7 +12,7 @@ namespace WebApplication1.Validators
 
             RuleFor(x => x.Amount)
                 .NotEmpty().WithMessage("Вкажіть кількість")
-                .LessThan(1000).WithMessage("К-сть не може бути більше 1000");
+                .LessThan(10000).WithMessage("К-сть не може бути більше 10000");
         }
     }
 }
