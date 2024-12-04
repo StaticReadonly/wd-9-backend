@@ -54,7 +54,7 @@ namespace WebApplication1.Repositories
                 DishComment c = _mapper.Map<DishComment>(x);
                 c.CanEdit = (userId != Guid.Empty) && (userId == x.User_ID);
                 return c;
-            });
+            }).OrderByDescending(x => x.TimeStamp);
 
             return comments;
         }
