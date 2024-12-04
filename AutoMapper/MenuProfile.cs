@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using WebApplication1.Models.ControllersIn;
+using WebApplication1.Models.ControllersIn.Menu;
 using WebApplication1.Models.ControllersOut;
 using WebApplication1.Models.Entities;
 

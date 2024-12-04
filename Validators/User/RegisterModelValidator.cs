@@ -1,11 +1,11 @@
 ﻿using FluentValidation;
-using WebApplication1.Models.ControllersIn;
+using WebApplication1.Models.ControllersIn.User;
 
-namespace WebApplication1.Validators
+namespace WebApplication1.Validators.User
 {
     public class RegisterModelValidator : AbstractValidator<RegisterModel>
     {
-        public RegisterModelValidator() 
+        public RegisterModelValidator()
         {
             RuleFor(x => x.First_Name)
                 .NotEmpty().WithMessage("Вкажіть ім'я")

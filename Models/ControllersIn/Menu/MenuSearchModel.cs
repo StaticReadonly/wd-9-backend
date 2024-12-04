@@ -1,4 +1,4 @@
-﻿namespace WebApplication1.Models.ControllersIn
+﻿namespace WebApplication1.Models.ControllersIn.Menu
 {
     public class MenuSearchModel
     {

@@ -1,4 +1,4 @@
-﻿namespace WebApplication1.Models.ControllersIn
+﻿namespace WebApplication1.Models.ControllersIn.User
 {
     public class LoginModel
     {

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApplication1.Exceptions;
-using WebApplication1.Models.ControllersIn;
+using WebApplication1.Models.ControllersIn.Ingredient;
 using WebApplication1.Repositories.Abstraction;
 
 namespace WebApplication1.Controllers

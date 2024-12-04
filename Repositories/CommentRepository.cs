@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using WebApplication1.DbConn;
 using WebApplication1.Exceptions;
-using WebApplication1.Models.ControllersIn;
+using WebApplication1.Models.ControllersIn.Comment;
 using WebApplication1.Models.ControllersOut;
 using WebApplication1.Models.Entities;
 using WebApplication1.Repositories.Abstraction;
@@ -38,7 +38,7 @@ namespace WebApplication1.Repositories
             await _context.SaveChangesAsync(token);
         }
 
-        public async Task<IEnumerable<DishComment>> GetComments(Guid dishId, CancellationToken token)
+        public async Task<IEnumerable<DishComment>> GetComments(Guid dishId, Guid userId, CancellationToken token)
         {
             var dish = await _context.Dishes
                 .Include(x => x.Recipe)
@@ -49,8 +49,12 @@ namespace WebApplication1.Repositories
             if (dish == null)
                 throw new EntityNotFoundException("Страви не існує");
 
-            IEnumerable<DishComment> comments = _mapper.Map<IEnumerable<DishComment>>(
-                dish.Recipe.Comments.AsEnumerable());
+            IEnumerable<DishComment> comments = dish.Recipe.Comments.Select(x =>
+            {
+                DishComment c = _mapper.Map<DishComment>(x);
+                c.CanEdit = (userId != Guid.Empty) && (userId == x.User_ID);
+                return c;
+            });
 
             return comments;
         }

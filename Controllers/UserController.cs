@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication1.Exceptions;
-using WebApplication1.Models.ControllersIn;
+using WebApplication1.Models.ControllersIn.User;
 using WebApplication1.Models.ControllersOut;
 using WebApplication1.Models.Entities;
 using WebApplication1.Repositories.Abstraction;

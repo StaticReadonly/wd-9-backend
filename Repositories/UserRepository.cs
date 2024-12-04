@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Options;
 using WebApplication1.DbConn;
 using WebApplication1.Exceptions;
-using WebApplication1.Models.ControllersIn;
+using WebApplication1.Models.ControllersIn.User;
 using WebApplication1.Models.Entities;
 using WebApplication1.Options;
 using WebApplication1.Repositories.Abstraction;

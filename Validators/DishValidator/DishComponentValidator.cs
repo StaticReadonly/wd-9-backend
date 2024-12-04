@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
-using WebApplication1.Models.ControllersIn;
+using WebApplication1.Models.ControllersIn.Dish;
 
-namespace WebApplication1.Validators
+namespace WebApplication1.Validators.DishValidator
 {
     public class DishComponentValidator : AbstractValidator<DishComponent>
     {

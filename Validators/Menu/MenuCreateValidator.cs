@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
-using WebApplication1.Models.ControllersIn;
+using WebApplication1.Models.ControllersIn.Menu;
 
-namespace WebApplication1.Validators
+namespace WebApplication1.Validators.Menu
 {
     public class MenuCreateValidator : AbstractValidator<MenuCreateModel>
     {

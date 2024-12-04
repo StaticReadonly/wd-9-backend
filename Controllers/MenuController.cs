@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApplication1.Exceptions;
-using WebApplication1.Models.ControllersIn;
+using WebApplication1.Models.ControllersIn.Menu;
 using WebApplication1.Models.ControllersOut;
 using WebApplication1.Repositories.Abstraction;
 

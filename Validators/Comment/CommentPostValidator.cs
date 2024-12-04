@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using WebApplication1.Models.ControllersIn;
+using WebApplication1.Models.ControllersIn.Comment;
 
 namespace WebApplication1.Validators.Comment
 {

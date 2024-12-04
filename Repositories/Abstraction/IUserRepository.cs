@@ -1,4 +1,4 @@
-﻿using WebApplication1.Models.ControllersIn;
+﻿using WebApplication1.Models.ControllersIn.User;
 using WebApplication1.Models.Entities;
 
 namespace WebApplication1.Repositories.Abstraction

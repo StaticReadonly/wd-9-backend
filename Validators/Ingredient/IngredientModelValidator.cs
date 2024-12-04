@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
-using WebApplication1.Models.ControllersIn;
+using WebApplication1.Models.ControllersIn.Ingredient;
 
-namespace WebApplication1.Validators
+namespace WebApplication1.Validators.Ingredient
 {
     public class IngredientModelValidator : AbstractValidator<IngredientModel>
     {

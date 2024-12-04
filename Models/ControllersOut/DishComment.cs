@@ -5,6 +5,7 @@
         public CommentOwnerInfo OwnerInfo { get; set; }
         public Guid ID { get; set; }
         public string Text { get; set; }
-        DateTime TimeStamp { get; set; }
+        public DateTime TimeStamp { get; set; }
+        public bool CanEdit { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using WebApplication1.DbConn;
-using WebApplication1.Models.ControllersIn;
+using WebApplication1.Models.ControllersIn.Tag;
 using WebApplication1.Models.ControllersOut;
 using WebApplication1.Models.Entities;
 using WebApplication1.Repositories.Abstraction;

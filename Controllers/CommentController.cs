@@ -1,8 +1,9 @@
 ﻿using FluentValidation;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication1.Exceptions;
-using WebApplication1.Models.ControllersIn;
+using WebApplication1.Models.ControllersIn.Comment;
 using WebApplication1.Repositories.Abstraction;
 using WebApplication1.Services.ClaimsManager;
 
@@ -50,13 +51,26 @@ namespace WebApplication1.Controllers
             return Ok();
         }
 
+        [AllowAnonymous]
         [HttpPost("{dishId:guid}")]
         public async Task<IActionResult> GetCommets([FromRoute] Guid dishId)
         {
+            var authRes = await HttpContext.AuthenticateAsync("Bearer");
+
+            if (authRes.Succeeded)
+            {
+                HttpContext.User = authRes.Principal;
+            }
+
             if (dishId == default(Guid))
                 return BadRequest("Вкажіть ідентифікатор");
 
-            var comments = await _commentRepository.GetComments(dishId, HttpContext.RequestAborted);
+            Guid userId = Guid.Empty;
+
+            if (_claimsManager.IsAuthenticated())
+                userId = _claimsManager.GetCurrentUserID();
+
+            var comments = await _commentRepository.GetComments(dishId, userId, HttpContext.RequestAborted);
 
             return Ok(comments);
         }

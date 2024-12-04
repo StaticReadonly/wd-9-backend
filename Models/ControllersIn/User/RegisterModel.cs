@@ -1,6 +1,6 @@
-﻿namespace WebApplication1.Models.ControllersIn
+﻿namespace WebApplication1.Models.ControllersIn.User
 {
-    public class RegisterModel 
+    public class RegisterModel
     {
         public string First_Name { get; set; }
         public string Last_Name { get; set; }

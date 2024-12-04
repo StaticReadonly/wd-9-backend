@@ -69,5 +69,10 @@ namespace WebApplication1.Services.ClaimsManager
             Claim claim = _context.User.Claims.First(x => x.Type == _claimsOptions.ID);
             return Guid.Parse(claim.Value);
         }
+
+        public bool IsAuthenticated()
+        {
+            return _context.User.Identity?.IsAuthenticated ?? false;
+        }
     }
 }
