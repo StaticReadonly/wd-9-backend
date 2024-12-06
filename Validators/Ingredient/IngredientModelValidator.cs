@@ -9,7 +9,7 @@ namespace WebApplication1.Validators.Ingredient
         {
             RuleFor(x => x.Name)
                 .NotEmpty().WithMessage("Вкажіть назву")
-                .Matches("^[A-ZА-ЯІЄЇa-zа-яієї0-9']+$").WithMessage("Назва може містити лише букви та цифри")
+                .Matches("^[A-ZА-ЯІЄЇa-zа-яієї0-9'\\s-]+$").WithMessage("Назва може містити лише букви та цифри")
                 .MaximumLength(50).WithMessage("Назва має бути не довше 50 символів");
 
             RuleFor(x => x.Unit)
